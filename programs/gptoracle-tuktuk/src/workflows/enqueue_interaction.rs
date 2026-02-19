@@ -19,6 +19,8 @@ pub struct EnqueueInteractionWorkflow<'info> {
     pub payer: Signer<'info>,
 
     #[account(mut)]
+    /// CHECK: This account is created and validated by the oracle CPI during
+    /// interaction creation; this workflow only forwards it.
     pub interaction: AccountInfo<'info>,
 
     #[account(
@@ -31,16 +33,20 @@ pub struct EnqueueInteractionWorkflow<'info> {
     pub context_account: Account<'info, ContextAccount>,
 
     #[account(mut)]
+    /// CHECK: Tuktuk queue account validated by the tuktuk program during CPI.
     pub task_queue: UncheckedAccount<'info>,
     #[account(mut)]
+    /// CHECK: Tuktuk queue authority account validated by the tuktuk CPI.
     pub task_queue_authority: UncheckedAccount<'info>,
     #[account(mut)]
+    /// CHECK: Task account is created/validated by the tuktuk CPI.
     pub task: UncheckedAccount<'info>,
     #[account(
         mut,
         seeds = [QUEUE_AUTHORITY_PDA_SEED],
         bump
     )]
+    /// CHECK: PDA is constrained by seeds+bump and only used as a CPI signer.
     pub queue_authority: AccountInfo<'info>,
     pub tuktuk_program: Program<'info, Tuktuk>,
     pub system_program: Program<'info, System>,

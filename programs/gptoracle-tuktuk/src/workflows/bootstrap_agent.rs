@@ -21,7 +21,11 @@ pub struct BootstrapAgentWorkflow<'info> {
     #[account(mut)]
     pub counter: Account<'info, Counter>,
     #[account(mut)]
+    /// CHECK: This account is initialized and validated by the `solana-gpt-oracle`
+    /// program in the `create_llm_context` CPI call.
     pub llm_context: AccountInfo<'info>,
+    /// CHECK: Address is constrained to `solana_gpt_oracle::ID`, so this points
+    /// to the expected oracle program used for CPI.
     #[account(address = solana_gpt_oracle::ID)]
     pub oracle_program: AccountInfo<'info>,
     pub system_program: Program<'info, System>,

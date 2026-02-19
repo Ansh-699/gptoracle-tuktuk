@@ -12,6 +12,8 @@ pub struct RequestOracleInteractionWorkflow<'info> {
     pub payer: Signer<'info>,
 
     #[account(mut)]
+    /// CHECK: This interaction account is initialized and validated by the
+    /// oracle program in the `interact_with_llm` CPI call.
     pub interaction: AccountInfo<'info>,
 
     #[account(
@@ -23,6 +25,8 @@ pub struct RequestOracleInteractionWorkflow<'info> {
     #[account(address = agent.context)]
     pub context_acount: Account<'info, ContextAccount>,
 
+    /// CHECK: Address is constrained to `solana_gpt_oracle::ID`, ensuring the
+    /// CPI targets the expected oracle program.
     #[account(address = solana_gpt_oracle::ID)]
     pub oracle_program: AccountInfo<'info>,
     pub system_program: Program<'info, System>,

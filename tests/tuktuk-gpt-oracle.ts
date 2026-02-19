@@ -8,6 +8,7 @@ import { init as initTuktuk, taskQueueAuthorityKey } from "@helium/tuktuk-sdk";
 describe("tuktuk-gpt-oracle", () => {
   const provider=anchor.AnchorProvider.env();
   anchor.setProvider(provider);
+  const isDevnet = provider.connection.rpcEndpoint.includes("devnet");
   
   const program = anchor.workspace.tuktukGptOracle as Program<TuktukGptOracle>;
 
@@ -30,6 +31,10 @@ describe("tuktuk-gpt-oracle", () => {
   const getQueueAuthorityPda=()=>PublicKey.findProgramAddressSync([Buffer.from("queue_authority")],program.programId);
 
   it("Initialize", async () => {
+    if (!isDevnet) {
+      console.log("Skipping devnet-only test on non-devnet cluster");
+      return;
+    }
     const [counterPda]=getCounterPda();
     const [agentPda]=getAgentPda();
     const agentInfo=await provider.connection.getAccountInfo(agentPda);
@@ -54,6 +59,10 @@ describe("tuktuk-gpt-oracle", () => {
   });
 
   it("Interaction",async ()=>{
+    if (!isDevnet) {
+      console.log("Skipping devnet-only test on non-devnet cluster");
+      return;
+    }
     const [agentPda]=getAgentPda();
     const agentAccount=await program.account.agent.fetch(agentPda);
 
@@ -72,6 +81,10 @@ describe("tuktuk-gpt-oracle", () => {
   });
 
   it("Schedule tuktuk",async ()=>{
+    if (!isDevnet) {
+      console.log("Skipping devnet-only test on non-devnet cluster");
+      return;
+    }
     const tuktukProgram=await initTuktuk(provider);
     const [agentPda]=getAgentPda();
     const agentAccount=await program.account.agent.fetch(agentPda);

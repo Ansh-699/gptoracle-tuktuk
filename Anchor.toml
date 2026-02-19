@@ -9,11 +9,14 @@ skip-lint = false
 [programs.devnet]
 tuktuk_gpt_oracle = "4ac78uTsz4YZt3ZKVntFbiQTequg7twtZjgAAv41KMxk"
 
+[programs.localnet]
+tuktuk_gpt_oracle = "4ac78uTsz4YZt3ZKVntFbiQTequg7twtZjgAAv41KMxk"
+
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
